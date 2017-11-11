@@ -22,6 +22,7 @@ repositories {
 }
 
 dependencies {
+    compile 'com.github.javaparser:javaparser-core:3.5.2'
 }
 
 task copyJars(type: Copy) {
