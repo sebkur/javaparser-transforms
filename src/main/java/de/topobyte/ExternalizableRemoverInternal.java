@@ -2,7 +2,6 @@ package de.topobyte;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.github.javaparser.ast.CompilationUnit;
@@ -15,9 +14,6 @@ public class ExternalizableRemoverInternal
 	private CompilationUnit cu;
 
 	private boolean modified = false;
-
-	private List<String> relevantMethods = Arrays
-			.asList(new String[] { "writeExternal", "readExternal" });
 
 	public ExternalizableRemoverInternal(CompilationUnit cu)
 	{
@@ -40,7 +36,7 @@ public class ExternalizableRemoverInternal
 	private boolean transform(ClassOrInterfaceDeclaration c)
 	{
 		List<MethodRemovalResult> results = new ArrayList<>();
-		for (String methodName : relevantMethods) {
+		for (String methodName : Constants.RELEVANT_METHODS_FOR_EXTERNALIZABLE) {
 			results.add(removeMethods(c, methodName));
 		}
 

@@ -3,7 +3,6 @@ package de.topobyte;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.List;
 
 import com.github.javaparser.JavaParser;
@@ -20,9 +19,6 @@ public class ExternalizableRemover
 
 	private boolean hasRelevantMethods = false;
 	private boolean modified = false;
-
-	private List<String> relevantMethods = Arrays
-			.asList(new String[] { "writeExternal", "readExternal" });
 
 	public void transform(Path file) throws IOException
 	{
@@ -71,7 +67,7 @@ public class ExternalizableRemover
 	{
 		originalCu.findAll(ClassOrInterfaceDeclaration.class).stream()
 				.filter(c -> !c.isInterface()).forEach(c -> {
-					for (String methodName : relevantMethods) {
+					for (String methodName : Constants.RELEVANT_METHODS_FOR_EXTERNALIZABLE) {
 						List<MethodDeclaration> methods = c
 								.getMethodsByName(methodName);
 						hasRelevantMethods |= !methods.isEmpty();
