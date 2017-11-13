@@ -1,0 +1,8 @@
+public class Foo {
+
+    // Externalization
+
+    public void writeExternal() {
+    }
+
+}
