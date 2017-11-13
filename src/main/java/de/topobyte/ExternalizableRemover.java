@@ -3,7 +3,7 @@ package de.topobyte;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.github.javaparser.JavaParser;
@@ -18,86 +18,82 @@ public class ExternalizableRemover
 	private CompilationUnit originalCu;
 	private CompilationUnit cu;
 
+	private boolean hasRelevantMethods = false;
 	private boolean modified = false;
+
+	private List<String> relevantMethods = Arrays
+			.asList(new String[] { "writeExternal", "readExternal" });
 
 	public void transform(Path file) throws IOException
 	{
 		System.out.println("working on file: " + file);
 
 		originalCu = JavaParser.parse(file);
-		transform();
 
-		if (!modified) {
+		determineHasRelevantMethods();
+		if (!hasRelevantMethods) {
 			return;
 		}
 
-		String text = LexicalPreservingPrinter.print(cu);
-		Files.write(file, text.getBytes());
+		// First try to transform while preserving formatting
+		try {
+			transformPreserving();
+
+			if (!modified) {
+				return;
+			}
+
+			String text = LexicalPreservingPrinter.print(cu);
+			Files.write(file, text.getBytes());
+		} catch (Exception e) {
+			// if that fails, transform discarding formatting
+			originalCu = JavaParser.parse(file);
+
+			transformSimple();
+
+			if (!modified) {
+				return;
+			}
+
+			String text = originalCu.toString();
+			Files.write(file, text.getBytes());
+		}
 	}
 
 	public CompilationUnit transform(CompilationUnit cu) throws IOException
 	{
 		originalCu = cu;
-		transform();
+		transformPreserving();
 		return this.cu;
 	}
 
-	private void transform()
+	private void determineHasRelevantMethods()
 	{
-		cu = LexicalPreservingPrinter.setup(originalCu);
-
-		cu.findAll(ClassOrInterfaceDeclaration.class).stream()
+		originalCu.findAll(ClassOrInterfaceDeclaration.class).stream()
 				.filter(c -> !c.isInterface()).forEach(c -> {
-					modified |= transform(c);
+					for (String methodName : relevantMethods) {
+						List<MethodDeclaration> methods = c
+								.getMethodsByName(methodName);
+						hasRelevantMethods |= !methods.isEmpty();
+					}
 				});
 	}
 
-	private boolean transform(ClassOrInterfaceDeclaration c)
+	private void transformPreserving() throws IOException
 	{
-		List<MethodRemovalResult> results = new ArrayList<>();
-		results.add(removeMethods(c, "writeExternal"));
-		results.add(removeMethods(c, "readExternal"));
-
-		boolean modified = false;
-		for (MethodRemovalResult result : results) {
-			if (result.numRemovals > 0) {
-				modified = true;
-			}
-		}
-
-		if (modified) {
-			System.out.println(c.getName());
-		}
-		for (MethodRemovalResult result : results) {
-			System.out.println(String.format("Removed '%s()' %d times",
-					result.name, result.numRemovals));
-		}
-
-		return true;
+		cu = LexicalPreservingPrinter.setup(originalCu);
+		ExternalizableRemoverInternal remover = new ExternalizableRemoverInternal(
+				cu);
+		remover.transform();
+		modified = remover.isModified();
 	}
 
-	private MethodRemovalResult removeMethods(ClassOrInterfaceDeclaration c,
-			String name)
+	private void transformSimple() throws IOException
 	{
-		List<MethodDeclaration> methods = c.getMethodsByName(name);
-		for (MethodDeclaration method : methods) {
-			c.remove(method);
-		}
-		return new MethodRemovalResult(name, methods.size());
-	}
-
-	private class MethodRemovalResult
-	{
-
-		private String name;
-		private int numRemovals;
-
-		public MethodRemovalResult(String name, int numRemovals)
-		{
-			this.name = name;
-			this.numRemovals = numRemovals;
-		}
-
+		ExternalizableRemoverInternal remover = new ExternalizableRemoverInternal(
+				originalCu);
+		remover.transform();
+		modified = remover.isModified();
 	}
 
 }
