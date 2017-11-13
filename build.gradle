@@ -23,6 +23,7 @@ repositories {
 
 dependencies {
     compile 'com.github.javaparser:javaparser-core:3.5.2'
+    compile 'de.topobyte:system-utils:0.0.1'
 }
 
 task copyJars(type: Copy) {
