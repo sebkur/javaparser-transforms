@@ -1,29 +1,37 @@
 package de.topobyte;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-
-import org.apache.commons.io.IOUtils;
+import java.util.List;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinter;
+
+import difflib.Delta;
+import difflib.DiffUtils;
+import difflib.Patch;
 
 public class TestTIntHashSet
 {
 
 	public static void main(String[] args) throws IOException
 	{
-		InputStream input = TestTIntHashSet.class.getClassLoader()
-				.getResourceAsStream("TIntHashSet.java.txt");
-		String originalText = IOUtils.toString(input, StandardCharsets.UTF_8);
+		String originalText = TestUtil.load("TIntHashSet.java.txt");
+		String targetText = TestUtil.load("TIntHashSet.java.mod.txt");
 
 		CompilationUnit originalCu = JavaParser.parse(originalText);
 		CompilationUnit cu = new ExternalizableRemover().transform(originalCu);
-		String text = LexicalPreservingPrinter.print(cu);
-		System.out.println(text);
-		// TODO: compare to other file
+		String modifiedText = LexicalPreservingPrinter.print(cu);
+
+		List<String> targetLines = TestUtil.lines(targetText);
+		List<String> modifiedLines = TestUtil.lines(modifiedText);
+
+		Patch<String> diffs = DiffUtils.diff(targetLines, modifiedLines);
+		for (Delta<String> delta : diffs.getDeltas()) {
+			System.out.println(delta.getType() + " " + delta);
+		}
+
+		System.out.println(targetText.equals(modifiedText));
 	}
 
 }
