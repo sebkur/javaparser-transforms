@@ -43,6 +43,7 @@ public class ModifierRunner
 			}
 
 			String text = LexicalPreservingPrinter.print(cu);
+			text = postTransform(text);
 			Files.write(file, text.getBytes());
 		} catch (Exception e) {
 			// if that fails, transform discarding formatting
@@ -55,8 +56,15 @@ public class ModifierRunner
 			}
 
 			String text = cu.toString();
+			text = postTransform(text);
 			Files.write(file, text.getBytes());
 		}
+	}
+
+	public String postTransform(String text)
+	{
+		Modifier modifier = factory.create(cu);
+		return modifier.postTransform(text);
 	}
 
 	public boolean willNeedModifications(CompilationUnit cu)

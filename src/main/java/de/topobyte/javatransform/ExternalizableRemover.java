@@ -104,4 +104,10 @@ public class ExternalizableRemover implements Modifier
 
 	}
 
+	@Override
+	public String postTransform(String text)
+	{
+		return text;
+	}
+
 }

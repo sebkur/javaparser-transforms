@@ -9,6 +9,8 @@ public interface Modifier
 
 	void transform() throws IOException;
 
+	String postTransform(String text);
+
 	boolean isModified();
 
 }

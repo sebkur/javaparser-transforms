@@ -125,4 +125,10 @@ public class StringFormatReplacer implements Modifier
 		return modified[0];
 	}
 
+	@Override
+	public String postTransform(String text)
+	{
+		return text;
+	}
+
 }
