@@ -8,14 +8,14 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
-public class ExternalizableRemoverInternal implements Modifier
+public class ExternalizableRemover implements Modifier
 {
 
 	private CompilationUnit cu;
 
 	private boolean modified = false;
 
-	public ExternalizableRemoverInternal(CompilationUnit cu)
+	public ExternalizableRemover(CompilationUnit cu)
 	{
 		this.cu = cu;
 	}

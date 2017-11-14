@@ -8,7 +8,7 @@ public class ExternalizableRemoverFactory implements ModifierFactory
 	@Override
 	public Modifier create(CompilationUnit cu)
 	{
-		return new ExternalizableRemoverInternal(cu);
+		return new ExternalizableRemover(cu);
 	}
 
 }
