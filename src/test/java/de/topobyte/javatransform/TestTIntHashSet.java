@@ -1,4 +1,4 @@
-package de.topobyte;
+package de.topobyte.javatransform;
 
 import java.io.IOException;
 import java.util.List;
@@ -7,6 +7,8 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinter;
 
+import de.topobyte.javatransform.ExternalizableRemoverFactory;
+import de.topobyte.javatransform.ModifierRunner;
 import difflib.Delta;
 import difflib.DiffUtils;
 import difflib.Patch;

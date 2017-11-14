@@ -1,4 +1,4 @@
-package de.topobyte;
+package de.topobyte.javatransform;
 
 import java.io.IOException;
 import java.util.List;
@@ -7,17 +7,19 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinter;
 
+import de.topobyte.javatransform.ExternalizableRemoverFactory;
+import de.topobyte.javatransform.ModifierRunner;
 import difflib.Delta;
 import difflib.DiffUtils;
 import difflib.Patch;
 
-public class TestTObjectIntHashMap
+public class TestFailMinimal1
 {
 
 	public static void main(String[] args) throws IOException
 	{
-		String originalText = TestUtil.load("TObjectIntHashMap.java.txt");
-		String targetText = TestUtil.load("TObjectIntHashMap.java.mod.txt");
+		String originalText = TestUtil.load("Fail.txt");
+		String targetText = TestUtil.load("Fail.mod.txt");
 
 		CompilationUnit cu = JavaParser.parse(originalText);
 		new ModifierRunner(new ExternalizableRemoverFactory()).transform(cu);

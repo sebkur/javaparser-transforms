@@ -1,4 +1,4 @@
-package de.topobyte;
+package de.topobyte.javatransform;
 
 import com.github.javaparser.ast.CompilationUnit;
 

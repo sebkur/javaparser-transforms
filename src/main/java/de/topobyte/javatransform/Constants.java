@@ -1,4 +1,4 @@
-package de.topobyte;
+package de.topobyte.javatransform;
 
 import java.util.Arrays;
 import java.util.List;
