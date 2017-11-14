@@ -75,6 +75,7 @@ public class MethodReplacer implements Modifier
 			method.replace(new FieldDeclaration(
 					EnumSet.noneOf(com.github.javaparser.ast.Modifier.class),
 					new ClassOrInterfaceType("REPLACE"), "ME!"));
+			modified = true;
 		}
 	}
 
