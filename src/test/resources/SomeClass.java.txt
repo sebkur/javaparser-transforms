@@ -1,0 +1,23 @@
+package de.topobyte.javatransform;
+
+import static java.lang.String.format;
+
+public class SomeClass
+{
+
+	public void foo()
+	{
+		String foo = String.format("%s: %d, %d", "test", 1, 2);
+		System.out.println(foo);
+
+		String bar = format("%f:%f", 1.2, 2.3);
+		System.out.println(bar);
+
+		String cat = java.lang.String.format("%s: %f, %f", "test", 2.3, 4.5);
+		System.out.println(cat);
+
+		String cat = String.format("%s: %f, %f", "test", 2.3, 4.5);
+		System.out.println(cat);
+	}
+
+}
