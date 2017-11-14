@@ -19,8 +19,8 @@ public class TestTIntHashSet
 		String originalText = TestUtil.load("TIntHashSet.java.txt");
 		String targetText = TestUtil.load("TIntHashSet.java.mod.txt");
 
-		CompilationUnit originalCu = JavaParser.parse(originalText);
-		CompilationUnit cu = new ExternalizableRemover().transform(originalCu);
+		CompilationUnit cu = JavaParser.parse(originalText);
+		new ExternalizableRemover().transform(cu);
 		String modifiedText = LexicalPreservingPrinter.print(cu);
 
 		List<String> targetLines = TestUtil.lines(targetText);

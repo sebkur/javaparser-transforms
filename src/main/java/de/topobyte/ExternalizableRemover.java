@@ -14,7 +14,6 @@ import com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinte
 public class ExternalizableRemover
 {
 
-	private CompilationUnit originalCu;
 	private CompilationUnit cu;
 
 	private boolean hasRelevantMethods = false;
@@ -24,7 +23,7 @@ public class ExternalizableRemover
 	{
 		System.out.println("working on file: " + file);
 
-		originalCu = JavaParser.parse(file);
+		cu = JavaParser.parse(file);
 
 		determineHasRelevantMethods();
 		if (!hasRelevantMethods) {
@@ -43,7 +42,7 @@ public class ExternalizableRemover
 			Files.write(file, text.getBytes());
 		} catch (Exception e) {
 			// if that fails, transform discarding formatting
-			originalCu = JavaParser.parse(file);
+			cu = JavaParser.parse(file);
 
 			transformSimple();
 
@@ -51,21 +50,20 @@ public class ExternalizableRemover
 				return;
 			}
 
-			String text = originalCu.toString();
+			String text = cu.toString();
 			Files.write(file, text.getBytes());
 		}
 	}
 
-	public CompilationUnit transform(CompilationUnit cu) throws IOException
+	public void transform(CompilationUnit cu) throws IOException
 	{
-		originalCu = cu;
+		this.cu = cu;
 		transformPreserving();
-		return this.cu;
 	}
 
 	private void determineHasRelevantMethods()
 	{
-		originalCu.findAll(ClassOrInterfaceDeclaration.class).stream()
+		cu.findAll(ClassOrInterfaceDeclaration.class).stream()
 				.filter(c -> !c.isInterface()).forEach(c -> {
 					for (String methodName : Constants.RELEVANT_METHODS_FOR_EXTERNALIZABLE) {
 						List<MethodDeclaration> methods = c
@@ -77,7 +75,7 @@ public class ExternalizableRemover
 
 	private void transformPreserving() throws IOException
 	{
-		cu = LexicalPreservingPrinter.setup(originalCu);
+		LexicalPreservingPrinter.setup(cu);
 		ExternalizableRemoverInternal remover = new ExternalizableRemoverInternal(
 				cu);
 		remover.transform();
@@ -87,7 +85,7 @@ public class ExternalizableRemover
 	private void transformSimple() throws IOException
 	{
 		ExternalizableRemoverInternal remover = new ExternalizableRemoverInternal(
-				originalCu);
+				cu);
 		remover.transform();
 		modified = remover.isModified();
 	}
