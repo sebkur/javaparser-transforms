@@ -13,7 +13,7 @@ public class TestUtil
 
 	public static String load(String path) throws IOException
 	{
-		InputStream input = TestTIntHashSet.class.getClassLoader()
+		InputStream input = TestUtil.class.getClassLoader()
 				.getResourceAsStream(path);
 		return IOUtils.toString(input, StandardCharsets.UTF_8);
 	}
