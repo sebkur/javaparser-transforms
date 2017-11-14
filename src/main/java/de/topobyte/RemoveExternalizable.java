@@ -29,7 +29,8 @@ public class RemoveExternalizable
 		System.out.println(String.format("Working on %d files", files.size()));
 
 		for (Path file : files) {
-			ExternalizableRemover modifier = new ExternalizableRemover();
+			ModifierRunner modifier = new ModifierRunner(
+					new ExternalizableRemoverFactory());
 			modifier.transform(file);
 		}
 	}

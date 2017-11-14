@@ -20,7 +20,7 @@ public class TestTIntHashSet
 		String targetText = TestUtil.load("TIntHashSet.java.mod.txt");
 
 		CompilationUnit cu = JavaParser.parse(originalText);
-		new ExternalizableRemover().transform(cu);
+		new ModifierRunner(new ExternalizableRemoverFactory()).transform(cu);
 		String modifiedText = LexicalPreservingPrinter.print(cu);
 
 		List<String> targetLines = TestUtil.lines(targetText);

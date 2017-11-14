@@ -11,13 +11,20 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinter;
 
-public class ExternalizableRemover
+public class ModifierRunner
 {
+
+	private ModifierFactory factory;
 
 	private CompilationUnit cu;
 
 	private boolean hasRelevantMethods = false;
 	private boolean modified = false;
+
+	public ModifierRunner(ModifierFactory factory)
+	{
+		this.factory = factory;
+	}
 
 	public void transform(Path file) throws IOException
 	{
@@ -61,6 +68,7 @@ public class ExternalizableRemover
 		transformPreserving();
 	}
 
+	// TODO: this needs to be generalized
 	private void determineHasRelevantMethods()
 	{
 		cu.findAll(ClassOrInterfaceDeclaration.class).stream()
@@ -76,16 +84,14 @@ public class ExternalizableRemover
 	private void transformPreserving() throws IOException
 	{
 		LexicalPreservingPrinter.setup(cu);
-		ExternalizableRemoverInternal remover = new ExternalizableRemoverInternal(
-				cu);
+		Modifier remover = factory.create(cu);
 		remover.transform();
 		modified = remover.isModified();
 	}
 
 	private void transformSimple() throws IOException
 	{
-		ExternalizableRemoverInternal remover = new ExternalizableRemoverInternal(
-				cu);
+		Modifier remover = factory.create(cu);
 		remover.transform();
 		modified = remover.isModified();
 	}

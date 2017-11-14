@@ -20,7 +20,7 @@ public class TestTObjectIntHashMap
 		String targetText = TestUtil.load("TObjectIntHashMap.java.mod.txt");
 
 		CompilationUnit cu = JavaParser.parse(originalText);
-		new ExternalizableRemover().transform(cu);
+		new ModifierRunner(new ExternalizableRemoverFactory()).transform(cu);
 		String modifiedText = LexicalPreservingPrinter.print(cu);
 
 		List<String> targetLines = TestUtil.lines(targetText);

@@ -8,7 +8,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
-public class ExternalizableRemoverInternal
+public class ExternalizableRemoverInternal implements Modifier
 {
 
 	private CompilationUnit cu;
@@ -20,11 +20,13 @@ public class ExternalizableRemoverInternal
 		this.cu = cu;
 	}
 
+	@Override
 	public boolean isModified()
 	{
 		return modified;
 	}
 
+	@Override
 	public void transform() throws IOException
 	{
 		cu.findAll(ClassOrInterfaceDeclaration.class).stream()
