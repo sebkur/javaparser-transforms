@@ -77,7 +77,7 @@ public class ExternalizableRemover implements Modifier
 					result.name, result.numRemovals));
 		}
 
-		return true;
+		return modified;
 	}
 
 	private MethodRemovalResult removeMethods(ClassOrInterfaceDeclaration c,
