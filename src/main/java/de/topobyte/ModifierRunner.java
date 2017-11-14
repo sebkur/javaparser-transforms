@@ -3,12 +3,9 @@ package de.topobyte;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinter;
 
 public class ModifierRunner
@@ -18,7 +15,7 @@ public class ModifierRunner
 
 	private CompilationUnit cu;
 
-	private boolean hasRelevantMethods = false;
+	private boolean willNeedModifications = false;
 	private boolean modified = false;
 
 	public ModifierRunner(ModifierFactory factory)
@@ -32,8 +29,8 @@ public class ModifierRunner
 
 		cu = JavaParser.parse(file);
 
-		determineHasRelevantMethods();
-		if (!hasRelevantMethods) {
+		determineWillNeedModifications();
+		if (!willNeedModifications) {
 			return;
 		}
 
@@ -68,32 +65,25 @@ public class ModifierRunner
 		transformPreserving();
 	}
 
-	// TODO: this needs to be generalized
-	private void determineHasRelevantMethods()
+	private void determineWillNeedModifications()
 	{
-		cu.findAll(ClassOrInterfaceDeclaration.class).stream()
-				.filter(c -> !c.isInterface()).forEach(c -> {
-					for (String methodName : Constants.RELEVANT_METHODS_FOR_EXTERNALIZABLE) {
-						List<MethodDeclaration> methods = c
-								.getMethodsByName(methodName);
-						hasRelevantMethods |= !methods.isEmpty();
-					}
-				});
+		Modifier modifier = factory.create(cu);
+		willNeedModifications = modifier.determineWillNeedModifications();
 	}
 
 	private void transformPreserving() throws IOException
 	{
 		LexicalPreservingPrinter.setup(cu);
-		Modifier remover = factory.create(cu);
-		remover.transform();
-		modified = remover.isModified();
+		Modifier modifier = factory.create(cu);
+		modifier.transform();
+		modified = modifier.isModified();
 	}
 
 	private void transformSimple() throws IOException
 	{
-		Modifier remover = factory.create(cu);
-		remover.transform();
-		modified = remover.isModified();
+		Modifier modifier = factory.create(cu);
+		modifier.transform();
+		modified = modifier.isModified();
 	}
 
 }

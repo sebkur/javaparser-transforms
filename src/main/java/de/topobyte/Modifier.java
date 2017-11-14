@@ -5,8 +5,10 @@ import java.io.IOException;
 public interface Modifier
 {
 
-	boolean isModified();
+	boolean determineWillNeedModifications();
 
 	void transform() throws IOException;
+
+	boolean isModified();
 
 }

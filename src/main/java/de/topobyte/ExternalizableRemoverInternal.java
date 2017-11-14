@@ -27,6 +27,23 @@ public class ExternalizableRemoverInternal implements Modifier
 	}
 
 	@Override
+	public boolean determineWillNeedModifications()
+	{
+		final boolean[] hasRelevantMethods = { false };
+
+		cu.findAll(ClassOrInterfaceDeclaration.class).stream()
+				.filter(c -> !c.isInterface()).forEach(c -> {
+					for (String methodName : Constants.RELEVANT_METHODS_FOR_EXTERNALIZABLE) {
+						List<MethodDeclaration> methods = c
+								.getMethodsByName(methodName);
+						hasRelevantMethods[0] |= !methods.isEmpty();
+					}
+				});
+
+		return hasRelevantMethods[0];
+	}
+
+	@Override
 	public void transform() throws IOException
 	{
 		cu.findAll(ClassOrInterfaceDeclaration.class).stream()
