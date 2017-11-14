@@ -59,6 +59,13 @@ public class ModifierRunner
 		}
 	}
 
+	public boolean willNeedModifications(CompilationUnit cu)
+	{
+		this.cu = cu;
+		determineWillNeedModifications();
+		return willNeedModifications;
+	}
+
 	public void transform(CompilationUnit cu) throws IOException
 	{
 		this.cu = cu;
