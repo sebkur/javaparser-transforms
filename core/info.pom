@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <name>JavaParser Transforms Core</name>
+  <description>Java source code transforming using JavaParser.</description>
+  <url>https://github.com/sebkur/javaparser-transforms</url>
+</project>

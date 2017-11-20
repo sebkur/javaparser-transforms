@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DIR=$(dirname $0)
-LIBS="$DIR/../build/lib-run"
+LIBS="$DIR/../cli/build/lib-run"
 
 if [ ! -d "$LIBS" ]; then
 	echo "Please run 'gradle createRuntime'"

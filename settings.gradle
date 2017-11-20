@@ -1,1 +1,3 @@
-rootProject.name = pName
+include 'core', 'cli'
+project(':core').name = 'javaparser-transforms'
+project(':cli').name = 'javaparser-transforms-cli'
