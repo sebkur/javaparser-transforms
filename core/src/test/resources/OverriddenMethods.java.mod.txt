@@ -1,0 +1,21 @@
+public class OverridenMethods
+{
+
+	@Override
+	public int hashCode()
+	{
+		return super.hashCode();
+	}
+
+		public Object clone()
+	{
+		return new OverridenMethods();
+	}
+
+	@Override
+	public String toString()
+	{
+		return super.toString();
+	}
+
+}
