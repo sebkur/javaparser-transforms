@@ -9,27 +9,18 @@ import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Name;
 
-public class ImportRemover implements Modifier
+public class ImportRemover extends BaseModifier
 {
 
-	private CompilationUnit cu;
 	private String importName;
 	private boolean isWildcard;
-
-	private boolean modified = false;
 
 	public ImportRemover(CompilationUnit cu, String importName,
 			boolean isWildcard)
 	{
-		this.cu = cu;
+		super(cu);
 		this.importName = importName;
 		this.isWildcard = isWildcard;
-	}
-
-	@Override
-	public boolean isModified()
-	{
-		return modified;
 	}
 
 	@Override
@@ -96,12 +87,6 @@ public class ImportRemover implements Modifier
 		}
 
 		return false;
-	}
-
-	@Override
-	public String postTransform(String text)
-	{
-		return text;
 	}
 
 }

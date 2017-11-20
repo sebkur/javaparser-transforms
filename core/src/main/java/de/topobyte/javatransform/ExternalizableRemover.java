@@ -8,22 +8,12 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
-public class ExternalizableRemover implements Modifier
+public class ExternalizableRemover extends BaseModifier
 {
-
-	private CompilationUnit cu;
-
-	private boolean modified = false;
 
 	public ExternalizableRemover(CompilationUnit cu)
 	{
-		this.cu = cu;
-	}
-
-	@Override
-	public boolean isModified()
-	{
-		return modified;
+		super(cu);
 	}
 
 	@Override
@@ -102,12 +92,6 @@ public class ExternalizableRemover implements Modifier
 			this.numRemovals = numRemovals;
 		}
 
-	}
-
-	@Override
-	public String postTransform(String text)
-	{
-		return text;
 	}
 
 }

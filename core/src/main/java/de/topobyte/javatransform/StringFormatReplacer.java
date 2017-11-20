@@ -16,15 +16,11 @@ import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 
-public class StringFormatReplacer implements Modifier
+public class StringFormatReplacer extends BaseModifier
 {
 
 	final static Logger logger = LoggerFactory
 			.getLogger(StringFormatReplacer.class);
-
-	private CompilationUnit cu;
-
-	private boolean modified = false;
 
 	private static final String IMPORT_STRING_FORMAT = "java.lang.String.format";
 	private Set<String> relevantMethods = new HashSet<>();
@@ -38,13 +34,7 @@ public class StringFormatReplacer implements Modifier
 
 	public StringFormatReplacer(CompilationUnit cu)
 	{
-		this.cu = cu;
-	}
-
-	@Override
-	public boolean isModified()
-	{
-		return modified;
+		super(cu);
 	}
 
 	@Override
@@ -123,12 +113,6 @@ public class StringFormatReplacer implements Modifier
 		});
 
 		return modified[0];
-	}
-
-	@Override
-	public String postTransform(String text)
-	{
-		return text;
 	}
 
 }

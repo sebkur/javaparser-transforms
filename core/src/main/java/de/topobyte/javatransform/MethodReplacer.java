@@ -10,27 +10,18 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
-public class MethodReplacer implements Modifier
+public class MethodReplacer extends BaseModifier
 {
 
-	private CompilationUnit cu;
 	private String methodName;
 	private String replacementText;
-
-	private boolean modified = false;
 
 	public MethodReplacer(CompilationUnit cu, String methodName,
 			String replacementText)
 	{
-		this.cu = cu;
+		super(cu);
 		this.methodName = methodName;
 		this.replacementText = replacementText;
-	}
-
-	@Override
-	public boolean isModified()
-	{
-		return modified;
 	}
 
 	@Override

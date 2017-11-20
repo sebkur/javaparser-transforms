@@ -9,24 +9,15 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 
-public class ConstructorRemover implements Modifier
+public class ConstructorRemover extends BaseModifier
 {
 
-	private CompilationUnit cu;
 	private List<String> parameterTypes;
-
-	private boolean modified = false;
 
 	public ConstructorRemover(CompilationUnit cu, List<String> parameterTypes)
 	{
-		this.cu = cu;
+		super(cu);
 		this.parameterTypes = parameterTypes;
-	}
-
-	@Override
-	public boolean isModified()
-	{
-		return modified;
 	}
 
 	@Override
@@ -81,12 +72,6 @@ public class ConstructorRemover implements Modifier
 						}
 					}
 				});
-	}
-
-	@Override
-	public String postTransform(String text)
-	{
-		return text;
 	}
 
 }

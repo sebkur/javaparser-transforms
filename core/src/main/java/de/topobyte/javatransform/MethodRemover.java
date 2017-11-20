@@ -7,24 +7,15 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
-public class MethodRemover implements Modifier
+public class MethodRemover extends BaseModifier
 {
 
-	private CompilationUnit cu;
 	private String methodName;
-
-	private boolean modified = false;
 
 	public MethodRemover(CompilationUnit cu, String methodName)
 	{
-		this.cu = cu;
+		super(cu);
 		this.methodName = methodName;
-	}
-
-	@Override
-	public boolean isModified()
-	{
-		return modified;
 	}
 
 	@Override
@@ -69,12 +60,6 @@ public class MethodRemover implements Modifier
 			c.remove(method);
 			modified = true;
 		}
-	}
-
-	@Override
-	public String postTransform(String text)
-	{
-		return text;
 	}
 
 }
