@@ -76,7 +76,15 @@ public class ModifierRunner
 
 	public void transform(CompilationUnit cu) throws IOException
 	{
+		transform(cu, true);
+	}
+
+	public void transform(CompilationUnit cu, boolean setup) throws IOException
+	{
 		this.cu = cu;
+		if (setup) {
+			LexicalPreservingPrinter.setup(cu);
+		}
 		transformPreserving();
 	}
 
@@ -88,7 +96,6 @@ public class ModifierRunner
 
 	private void transformPreserving() throws IOException
 	{
-		LexicalPreservingPrinter.setup(cu);
 		Modifier modifier = factory.create(cu);
 		modifier.transform();
 		modified = modifier.isModified();
