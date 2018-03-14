@@ -6,7 +6,7 @@ if (project.hasProperty("topobyte")) {
 dependencies {
     compile 'com.github.javaparser:javaparser-core:3.5.3'
     compile 'de.topobyte:system-utils:0.0.1'
-    compile 'de.topobyte:melon-paths:0.0.1'
+    compile 'de.topobyte:melon-paths:0.0.2'
     compile 'commons-io:commons-io:2.6'
     compile 'com.googlecode.java-diff-utils:diffutils:1.3.0'
 
