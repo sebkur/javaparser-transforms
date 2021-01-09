@@ -21,7 +21,8 @@ public class TestSomeClass
 	{
 		String originalText = TestUtil.load("SomeClass.java.txt");
 
-		CompilationUnit cu = JavaParser.parse(originalText);
+		CompilationUnit cu = new JavaParser().parse(originalText).getResult()
+				.get();
 
 		ModifierRunner modifierRunner = new ModifierRunner(
 				new StringFormatReplacerFactory());

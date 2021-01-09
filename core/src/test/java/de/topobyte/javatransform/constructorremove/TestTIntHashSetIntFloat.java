@@ -24,7 +24,8 @@ public class TestTIntHashSetIntFloat
 		String targetText = TestUtil
 				.load("TIntHashSet.java.removedconstructor.txt");
 
-		CompilationUnit cu = JavaParser.parse(originalText);
+		CompilationUnit cu = new JavaParser().parse(originalText).getResult()
+				.get();
 
 		List<String> types = new ArrayList<>();
 		types.add("int");

@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinter;
 
@@ -27,7 +28,7 @@ public class ModifierRunner
 	{
 		System.out.println("working on file: " + file);
 
-		cu = JavaParser.parse(file);
+		cu = new JavaParser().parse(file).getResult().get();
 
 		determineWillNeedModifications();
 		if (!willNeedModifications) {
@@ -46,8 +47,10 @@ public class ModifierRunner
 			text = postTransform(text);
 			Files.write(file, text.getBytes());
 		} catch (Exception e) {
+			System.out.println("failed: " + e);
+			e.printStackTrace();
 			// if that fails, transform discarding formatting
-			cu = JavaParser.parse(file);
+			cu = new JavaParser().parse(file).getResult().get();
 
 			transformSimple();
 

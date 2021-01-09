@@ -1,10 +1,10 @@
 package de.topobyte.javatransform;
 
 import java.io.IOException;
-import java.util.EnumSet;
 import java.util.List;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -64,7 +64,7 @@ public class MethodReplacer extends BaseModifier
 		List<MethodDeclaration> methods = c.getMethodsByName(name);
 		for (MethodDeclaration method : methods) {
 			method.replace(new FieldDeclaration(
-					EnumSet.noneOf(com.github.javaparser.ast.Modifier.class),
+					new NodeList<com.github.javaparser.ast.Modifier>(),
 					new ClassOrInterfaceType("REPLACE"), "ME!"));
 			modified = true;
 		}

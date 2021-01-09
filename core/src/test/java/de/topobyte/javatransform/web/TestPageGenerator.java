@@ -22,7 +22,8 @@ public class TestPageGenerator
 		String originalText = TestUtil.load("PageGenerator.txt");
 		String expectedText = TestUtil.load("PageGenerator.mod.txt");
 
-		CompilationUnit cu = JavaParser.parse(originalText);
+		CompilationUnit cu = new JavaParser().parse(originalText).getResult()
+				.get();
 
 		WebContextRemoverFactory remover = new WebContextRemoverFactory();
 

@@ -18,7 +18,8 @@ public class TestFailMinimal2
 
 	public static void main(String[] args) throws IOException
 	{
-		CompilationUnit originalCu = JavaParser.parse(text);
+		CompilationUnit originalCu = new JavaParser().parse(text).getResult()
+				.get();
 		CompilationUnit cu = LexicalPreservingPrinter.setup(originalCu);
 
 		cu.findAll(ClassOrInterfaceDeclaration.class).stream().forEach(c -> {

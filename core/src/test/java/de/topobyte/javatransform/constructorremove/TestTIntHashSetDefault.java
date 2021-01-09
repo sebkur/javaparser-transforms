@@ -24,7 +24,8 @@ public class TestTIntHashSetDefault
 		String targetText = TestUtil
 				.load("TIntHashSet.java.removeddefaultconstructor.txt");
 
-		CompilationUnit cu = JavaParser.parse(originalText);
+		CompilationUnit cu = new JavaParser().parse(originalText).getResult()
+				.get();
 
 		List<String> types = new ArrayList<>();
 		ConstructorRemoverFactory remover = new ConstructorRemoverFactory(

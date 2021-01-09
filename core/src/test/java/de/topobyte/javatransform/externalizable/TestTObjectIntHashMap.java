@@ -22,7 +22,8 @@ public class TestTObjectIntHashMap
 		String originalText = TestUtil.load("TObjectIntHashMap.java.txt");
 		String targetText = TestUtil.load("TObjectIntHashMap.java.mod.txt");
 
-		CompilationUnit cu = JavaParser.parse(originalText);
+		CompilationUnit cu = new JavaParser().parse(originalText).getResult()
+				.get();
 		new ModifierRunner(new ExternalizableRemoverFactory()).transform(cu);
 		String modifiedText = LexicalPreservingPrinter.print(cu);
 

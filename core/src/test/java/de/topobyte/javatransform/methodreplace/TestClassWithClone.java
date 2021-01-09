@@ -21,7 +21,8 @@ public class TestClassWithClone
 	{
 		String originalText = TestUtil.load("ClassWithClone.java.txt");
 
-		CompilationUnit cu = JavaParser.parse(originalText);
+		CompilationUnit cu = new JavaParser().parse(originalText).getResult()
+				.get();
 
 		ModifierRunner modifierRunner = new ModifierRunner(
 				new MethodReplacerFactory("clone",

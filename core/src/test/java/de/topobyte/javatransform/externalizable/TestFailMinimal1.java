@@ -22,7 +22,8 @@ public class TestFailMinimal1
 		String originalText = TestUtil.load("Fail.txt");
 		String targetText = TestUtil.load("Fail.mod.txt");
 
-		CompilationUnit cu = JavaParser.parse(originalText);
+		CompilationUnit cu = new JavaParser().parse(originalText).getResult()
+				.get();
 		new ModifierRunner(new ExternalizableRemoverFactory()).transform(cu);
 		String modifiedText = LexicalPreservingPrinter.print(cu);
 

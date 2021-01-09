@@ -23,7 +23,8 @@ public class TestTIntHashSet
 		String targetText = TestUtil
 				.load("TIntHashSet.java.removedimports.txt");
 
-		CompilationUnit cu = JavaParser.parse(originalText);
+		CompilationUnit cu = new JavaParser().parse(originalText).getResult()
+				.get();
 
 		ImportRemoverFactory remover1 = new ImportRemoverFactory("TIntIterator",
 				false);

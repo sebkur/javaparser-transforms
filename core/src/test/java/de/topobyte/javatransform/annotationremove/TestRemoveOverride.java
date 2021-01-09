@@ -22,7 +22,8 @@ public class TestRemoveOverride
 		String originalText = TestUtil.load("OverriddenMethods.java.txt");
 		String targetText = TestUtil.load("OverriddenMethods.java.mod.txt");
 
-		CompilationUnit cu = JavaParser.parse(originalText);
+		CompilationUnit cu = new JavaParser().parse(originalText).getResult()
+				.get();
 
 		MethodAnnotationRemoverFactory remover = new MethodAnnotationRemoverFactory(
 				"clone", "Override");

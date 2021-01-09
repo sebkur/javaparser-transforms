@@ -8,7 +8,6 @@ import de.topobyte.jsoup.components.Form.Method;
 import de.topobyte.jsoup.components.Input.Type;
 import de.topobyte.jsoup.components.P;
 import de.topobyte.luqe.iface.QueryException;
-
 import de.topobyte.web.BaseGenerator;
 import de.topobyte.webpaths.WebPath;
 
