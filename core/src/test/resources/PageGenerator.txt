@@ -1,0 +1,30 @@
+package de.topobyte.web;
+
+import de.topobyte.jsoup.HTML;
+import de.topobyte.jsoup.bootstrap3.BootstrapFormsHorizontal;
+import de.topobyte.jsoup.bootstrap3.forms.InputGroup;
+import de.topobyte.jsoup.components.Form;
+import de.topobyte.jsoup.components.Form.Method;
+import de.topobyte.jsoup.components.Input.Type;
+import de.topobyte.jsoup.components.P;
+import de.topobyte.luqe.iface.QueryException;
+import de.topobyte.pagegen.core.Context;
+import de.topobyte.web.BaseGenerator;
+import de.topobyte.webpaths.WebPath;
+
+public class PageGenerator extends BaseGenerator
+{
+
+	public PageGenerator(Context context, WebPath path)
+	{
+		super(context, path);
+	}
+
+	@Override
+	protected void content() throws QueryException
+	{
+		content.ac(HTML.h1("Foo"));
+	}
+
+}
+
