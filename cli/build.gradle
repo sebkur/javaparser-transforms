@@ -1,8 +1,8 @@
 dependencies {
-    compile project(':javaparser-transforms')
+    implementation project(':javaparser-transforms')
 
-    runtime 'org.slf4j:slf4j-log4j12:1.6.1'
-    runtime 'log4j:log4j:1.2.16'
+    runtimeOnly 'org.slf4j:slf4j-log4j12:1.6.1'
+    runtimeOnly 'log4j:log4j:1.2.16'
 }
 
 task copyJars(type: Copy) {
@@ -12,25 +12,9 @@ task copyJars(type: Copy) {
 
 task copyDeps(type: Copy) {
     into "$buildDir/lib-run"
-    from configurations.runtime
+    from configurations.runtimeClasspath
 }
 
 task createRuntime(dependsOn: [copyJars, copyDeps]) {
     description 'Setup the execution environment for the main scripts'
-}
-
-def pomInfo = new XmlSlurper().parse(new File(projectDir, 'info.pom'));
-
-afterEvaluate { project ->
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                pom.project {
-                    name pomInfo.name
-                    description pomInfo.description
-                    url pomInfo.url
-                }
-            }
-        }
-    }
 }
