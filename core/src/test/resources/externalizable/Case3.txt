@@ -1,0 +1,8 @@
+public class Foo implements Serializable, Externalizable {
+
+    // Externalization
+
+    public void writeExternal() {
+    }
+
+}

@@ -17,19 +17,20 @@ import difflib.Delta;
 import difflib.DiffUtils;
 import difflib.Patch;
 
-public class TestFailMinimal1
+public class TestCaseMinimal4
 {
 
 	@Test
 	public void test() throws IOException
 	{
-		String originalText = TestUtil.load("Fail.txt");
-		String targetText = TestUtil.load("Fail.mod.txt");
+		String originalText = TestUtil.load("externalizable/Case4.txt");
+		String targetText = TestUtil.load("externalizable/Case4.mod.txt");
 
 		CompilationUnit cu = new JavaParser().parse(originalText).getResult()
 				.get();
 		new ModifierRunner(new ExternalizableRemoverFactory()).transform(cu);
 		String modifiedText = LexicalPreservingPrinter.print(cu);
+		System.out.println(originalText);
 
 		List<String> targetLines = TestUtil.lines(targetText);
 		List<String> modifiedLines = TestUtil.lines(modifiedText);

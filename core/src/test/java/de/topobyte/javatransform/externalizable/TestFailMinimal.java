@@ -16,7 +16,7 @@ import difflib.Delta;
 import difflib.DiffUtils;
 import difflib.Patch;
 
-public class TestFailMinimal2
+public class TestFailMinimal
 {
 
 	private static String text = "public class Foo {\n\n"
