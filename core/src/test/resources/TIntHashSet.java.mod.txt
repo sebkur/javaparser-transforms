@@ -47,7 +47,7 @@ import java.util.Collection;
  * @author Jeff Randall
  */
 
-public class TIntHashSet extends TIntHash implements TIntSet, Externalizable {
+public class TIntHashSet extends TIntHash implements TIntSet {
 	static final long serialVersionUID = 1L;
 
 

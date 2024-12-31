@@ -7,6 +7,7 @@ import java.util.List;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
 public class ExternalizableRemover extends BaseModifier
 {
@@ -19,10 +20,16 @@ public class ExternalizableRemover extends BaseModifier
 	@Override
 	public boolean determineWillNeedModifications()
 	{
+		final boolean[] hasRelevantImplements = { false };
 		final boolean[] hasRelevantMethods = { false };
 
 		cu.findAll(ClassOrInterfaceDeclaration.class).stream()
 				.filter(c -> !c.isInterface()).forEach(c -> {
+					for (ClassOrInterfaceType type : c.getImplementedTypes()) {
+						if (type.getNameAsString().equals("Externalizable")) {
+							hasRelevantImplements[0] = true;
+						}
+					}
 					for (String methodName : Constants.RELEVANT_METHODS_FOR_EXTERNALIZABLE) {
 						List<MethodDeclaration> methods = c
 								.getMethodsByName(methodName);
@@ -30,7 +37,7 @@ public class ExternalizableRemover extends BaseModifier
 					}
 				});
 
-		return hasRelevantMethods[0];
+		return hasRelevantImplements[0] || hasRelevantMethods[0];
 	}
 
 	@Override
@@ -44,12 +51,25 @@ public class ExternalizableRemover extends BaseModifier
 
 	private boolean transform(ClassOrInterfaceDeclaration c)
 	{
+		boolean modified = false;
+
+		List<ClassOrInterfaceType> toRemove = new ArrayList<>();
+		for (ClassOrInterfaceType type : c.getImplementedTypes()) {
+			if (type.getNameAsString().equals("Externalizable")) {
+				toRemove.add(type);
+			}
+		}
+
+		for (ClassOrInterfaceType type : toRemove) {
+			type.remove();
+			modified = true;
+		}
+
 		List<MethodRemovalResult> results = new ArrayList<>();
 		for (String methodName : Constants.RELEVANT_METHODS_FOR_EXTERNALIZABLE) {
 			results.add(removeMethods(c, methodName));
 		}
 
-		boolean modified = false;
 		for (MethodRemovalResult result : results) {
 			if (result.numRemovals > 0) {
 				modified = true;
