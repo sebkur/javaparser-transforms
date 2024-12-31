@@ -3,6 +3,9 @@ package de.topobyte.javatransform.stringformat;
 import java.io.IOException;
 import java.util.List;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinter;
@@ -17,9 +20,11 @@ import difflib.Patch;
 public class TestSomeClass
 {
 
-	public static void main(String[] args) throws IOException
+	@Test
+	public void test() throws IOException
 	{
 		String originalText = TestUtil.load("SomeClass.java.txt");
+		String targetText = TestUtil.load("SomeClass.java.mod.txt");
 
 		CompilationUnit cu = new JavaParser().parse(originalText).getResult()
 				.get();
@@ -39,7 +44,7 @@ public class TestSomeClass
 			System.out.println(delta.getType() + " " + delta);
 		}
 
-		System.out.println(modifiedText);
+		Assert.assertEquals(targetText, modifiedText);
 	}
 
 }

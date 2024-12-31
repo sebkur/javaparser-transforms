@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinter;
@@ -18,7 +21,8 @@ import difflib.Patch;
 public class TestTIntHashSetIntFloat
 {
 
-	public static void main(String[] args) throws IOException
+	@Test
+	public void test() throws IOException
 	{
 		String originalText = TestUtil.load("TIntHashSet.java.txt");
 		String targetText = TestUtil
@@ -44,7 +48,7 @@ public class TestTIntHashSetIntFloat
 			System.out.println(delta.getType() + " " + delta);
 		}
 
-		System.out.println(targetText.equals(modifiedText));
+		Assert.assertEquals(targetText, modifiedText);
 	}
 
 }

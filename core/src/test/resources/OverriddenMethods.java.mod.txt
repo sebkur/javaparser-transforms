@@ -7,7 +7,7 @@ public class OverridenMethods
 		return super.hashCode();
 	}
 
-		public Object clone()
+	public Object clone()
 	{
 		return new OverridenMethods();
 	}
