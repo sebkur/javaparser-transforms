@@ -1,5 +1,8 @@
 package de.topobyte.javatransform;
 
+import de.topobyte.melon.paths.PathUtil;
+import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -9,18 +12,14 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
-
-import de.topobyte.melon.paths.PathUtil;
-
-public class Substitute
+public class SubstitutePattern
 {
 
 	public static void main(String[] args) throws IOException
 	{
 		if (args.length < 3) {
 			System.out
-					.println("usage: Substitute <text> <replacement> file...");
+					.println("usage: SubstitutePattern <pattern> <replacement> file...");
 			System.exit(1);
 		}
 
@@ -47,7 +46,7 @@ public class Substitute
 			InputStream is = Files.newInputStream(file);
 			String text = IOUtils.toString(is, StandardCharsets.UTF_8);
 			is.close();
-			PatternModifier modifier = new PatternModifier(text, needle, true,
+			PatternModifier modifier = new PatternModifier(text, needle, false,
 					replacement);
 			String newText = modifier.transform();
 			if (modifier.isModified()) {
